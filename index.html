@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AUTOCLICK QR: catálogo digital de mantenimiento, repuestos y auxilio vehicular.">
+<title>AUTOCLICK QR | Tu catálogo digital</title>
+<style>
+:root{--wine:#641d32;--wine2:#8c2945;--gold:#f2c14e;--ink:#17212b;--muted:#64717d;--paper:#f5f6f7;--green:#23845b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
+.view{display:none}.view.active{display:block}
+.btn{display:inline-block;background:var(--gold);color:#282018;text-decoration:none;padding:13px 22px;border-radius:9px;font-weight:bold;border:0;cursor:pointer;font-size:1rem}
+.btn.secondary{background:var(--wine);color:#fff}.btn.telegram{background:#229ed9;color:#fff}.btn.whatsapp{background:#25a244;color:#fff}
+.btn:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.view.hero.active{display:grid}
+.hero{background:#fff;color:var(--ink);padding:40px 6%;min-height:100vh;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);align-items:center;gap:24px}
+.hero-content{max-width:520px}.hero h1{font-size:clamp(2.2rem,5.5vw,4rem);line-height:1.05;margin:0 0 14px;color:var(--wine)}
+.hero p{font-size:1.15rem;max-width:520px;margin:0 0 26px;color:var(--muted)}
+.hero-car{display:block;width:100%;height:auto}
+.page{padding:36px 6% 60px;min-height:100vh}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+.back{background:none;border:2px solid var(--wine);color:var(--wine);padding:9px 16px;border-radius:9px;font-weight:bold;cursor:pointer;font-size:.95rem}
+.section-head{text-align:center;max-width:760px;margin:0 auto 30px}.section-head h2{font-size:2rem;color:var(--wine);margin:0 0 8px}.section-head p{color:var(--muted);margin:0}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 25px #17212b12;display:flex;flex-direction:column}
+.card img{display:block;width:100%;height:auto;background:#e9ecef}
+.card .body{padding:20px;display:flex;flex-direction:column;flex:1}.card h3{margin:0 0 8px;color:var(--wine)}.card p{color:var(--muted);margin:0 0 18px}.card .btn{align-self:flex-start;margin-top:auto}
+.catalog-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.catalog-item{background:#fff;padding:14px;border-radius:14px;box-shadow:0 5px 20px #0000000d}
+.catalog-item img{display:block;width:100%;height:auto;background:#f0f1f2;border-radius:8px}.catalog-item h3{color:var(--wine);margin:12px 4px 4px}
+.cta-row{text-align:center;margin-top:30px}
+.form-box{background:#fff;padding:26px;border-radius:15px;box-shadow:0 5px 20px #0000000d;max-width:560px;margin:0 auto 22px}
+.form-box h3{color:var(--wine);margin-top:0}
+label{display:block;font-weight:bold;margin:12px 0 4px}
+input{width:100%;padding:11px;border:1px solid #c9cfd4;border-radius:8px;font-size:1rem}
+.msg{margin-top:12px;overflow-wrap:anywhere}.msg.ok{color:var(--green)}.msg.err{color:#b3261e}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.price{display:inline-block;background:var(--wine);color:var(--gold);font-weight:bold;font-size:1.05rem;padding:5px 14px;border-radius:20px;margin:2px 4px 6px}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:900px;margin:0 auto}
+.contact-grid .form-box{margin:0;text-align:center;max-width:none}
+.qr{display:block;width:220px;max-width:100%;height:auto;margin:10px auto 16px;border-radius:8px;border:6px solid #fff;box-shadow:0 2px 10px #0002}
+.btn.facebook{background:#1877f2;color:#fff}.btn.tiktok{background:#111;color:#fff;box-shadow:inset 0 -3px 0 #25f4ee,inset 0 3px 0 #fe2c55}
+.social{display:flex;flex-direction:column;gap:12px;margin-top:16px}.social .btn{text-align:center}
+@media(max-width:800px){.cards,.catalog-grid{grid-template-columns:1fr}.hero{padding:30px 6%;grid-template-columns:1fr;min-height:auto}.contact-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* ESTILO VISUAL AUTOCLICK QR */
+:root{
+  --wine:#641d32;--wine2:#8c2945;--gold:#f2c14e;
+  --ink:#20232b;--muted:#68717d;--paper:#f7f3f4;--green:#23845b;
+}
+body{
+  background:linear-gradient(135deg,#f8f3f5 0%,#f2e8ec 48%,#fffaf0 100%);
+}
+.page{
+  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(248,243,245,.92));
+}
+.hero{
+  background:radial-gradient(circle at 80% 15%,#f5e5c4 0,transparent 34%),
+             linear-gradient(120deg,#fff 0%,#f8edf1 58%,#ead5dc 100%);
+}
+.hero-content{
+  background:rgba(255,255,255,.78);
+  border:1px solid rgba(100,29,50,.10);
+  border-radius:22px;padding:clamp(22px,4vw,38px);
+  box-shadow:0 16px 42px rgba(68,20,38,.10);
+}
+.hero h1{
+  letter-spacing:.035em;
+  text-shadow:0 2px 0 rgba(242,193,78,.18);
+}
+.hero-car{
+  filter:drop-shadow(0 18px 20px rgba(46,22,31,.18));
+  border-radius:20px;
+}
+.topbar{
+  padding:12px 14px;border-radius:14px;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(100,29,50,.10);
+  box-shadow:0 5px 18px rgba(60,20,35,.06);
+}
+.section-head h2{
+  display:inline-block;position:relative;padding-bottom:10px;
+}
+.section-head h2:after{
+  content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:76px;height:4px;border-radius:8px;background:var(--gold);
+}
+.cards{align-items:stretch}
+.card,.catalog-item,.form-box{
+  border:1px solid rgba(100,29,50,.09);
+  box-shadow:0 10px 28px rgba(57,20,34,.09);
+  transition:transform .22s ease,box-shadow .22s ease;
+}
+.card:hover,.catalog-item:hover{
+  transform:translateY(-5px);
+  box-shadow:0 17px 34px rgba(57,20,34,.15);
+}
+.card img{
+  width:100%;height:250px;object-fit:contain;
+  padding:10px;background:linear-gradient(135deg,#fff,#f5edf0);
+}
+.card .body{background:linear-gradient(180deg,#fff,#fff9fb)}
+.card h3,.catalog-item h3{color:var(--wine2)}
+.catalog-item{
+  padding:14px;background:linear-gradient(145deg,#fff 0%,#fff9fb 100%);
+}
+.catalog-item img{
+  width:100%;height:auto;object-fit:contain;
+  background:#fff;border:1px solid #eee5e8;
+}
+.btn{
+  box-shadow:0 5px 12px rgba(100,29,50,.12);
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease;
+}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 8px 18px rgba(100,29,50,.18)}
+.btn.secondary{background:linear-gradient(135deg,var(--wine),var(--wine2))}
+.back{
+  background:#fff;transition:background .18s ease,color .18s ease;
+}
+.back:hover{background:var(--wine);color:#fff}
+.form-box{
+  background:linear-gradient(145deg,#fff 0%,#fff8fa 100%);
+}
+input{
+  background:#fff;border:1px solid #d8c8ce;transition:border-color .18s,box-shadow .18s;
+}
+input:focus{border-color:var(--wine2);box-shadow:0 0 0 3px rgba(140,41,69,.12);outline:none}
+.price{background:linear-gradient(135deg,var(--wine),var(--wine2));box-shadow:0 3px 8px rgba(100,29,50,.16)}
+.qr{border-color:#fff}
+@media(max-width:800px){
+  .page{padding:22px 5% 42px}
+  .topbar{margin-bottom:20px}
+  .card img{height:auto;max-height:300px}
+  .hero-content{padding:24px}
+}
+@media(prefers-reduced-motion:reduce){
+  .card,.catalog-item,.btn,.back{transition:none}
+}
+
+
+/* TEMA VERDE Y AMARILLO - AUTOCLICK QR */
+:root{
+  --wine:#164b32;
+  --wine2:#237247;
+  --gold:#ffdf36;
+  --ink:#fff7b2;
+  --muted:#e7edcf;
+  --paper:#0e3827;
+  --green:#ffdf36;
+}
+html{background:#0e3827}
+body{
+  color:#fff7b2;
+  background:linear-gradient(135deg,#0b3022 0%,#145438 52%,#1c6844 100%);
+}
+.view.page{
+  color:#fff7b2;
+  background:linear-gradient(145deg,#0d3928 0%,#14583a 58%,#1b6845 100%);
+}
+.hero{
+  color:#ffdf36;
+  background:
+    radial-gradient(circle at 82% 16%,rgba(255,223,54,.18),transparent 32%),
+    linear-gradient(125deg,#092e20 0%,#125237 55%,#1c7048 100%);
+}
+.hero-content{
+  background:rgba(8,43,29,.72);
+  border:1px solid rgba(255,223,54,.28);
+  box-shadow:0 18px 45px rgba(0,0,0,.28);
+}
+.hero h1,.section-head h2,.card h3,.catalog-item h3,
+.form-box h3{color:#ffdf36}
+.hero p,.section-head p,.card p,.form-box p,
+.catalog-item p{color:#f2f1d2}
+.topbar{
+  background:rgba(7,42,28,.82);
+  border:1px solid rgba(255,223,54,.22);
+  box-shadow:0 7px 22px rgba(0,0,0,.18);
+}
+.back{
+  border-color:#ffdf36;color:#ffdf36;background:#124a32;
+}
+.back:hover{background:#ffdf36;color:#123d2b}
+.btn{
+  background:linear-gradient(135deg,#ffe65a,#ffcf24);
+  color:#173b29;
+  box-shadow:0 6px 16px rgba(0,0,0,.2);
+}
+.btn.secondary{
+  background:linear-gradient(135deg,#26794c,#155137);
+  color:#ffdf36;border:1px solid rgba(255,223,54,.55);
+}
+.cards,.catalog-grid{gap:22px}
+.card,.catalog-item,.form-box{
+  color:#fff7b2;
+  background:linear-gradient(150deg,#14583a 0%,#0d402b 100%);
+  border:1px solid rgba(255,223,54,.25);
+  box-shadow:0 12px 30px rgba(0,0,0,.24);
+}
+.card .body{background:linear-gradient(150deg,#14583a,#0d402b)}
+/* Las fotos llenan el cuadro completo, sin márgenes vacíos */
+.card img,.catalog-item img{
+  display:block;
+  width:100%;
+  height:340px;
+  object-fit:cover;
+  object-position:center;
+  padding:0;
+  background:#f7f5e9;
+  border:1px solid rgba(255,223,54,.28);
+}
+.card img{height:250px}
+.catalog-item img{height:360px}
+@media(max-width:800px){
+  .card img{height:300px}
+  .catalog-item img{height:360px}
+}
+.section-head h2:after{background:#ffdf36}
+.form-box input{
+  color:#173b29;background:#fffef2;border:1px solid #e6d56a;
+}
+input:focus{border-color:#ffdf36;box-shadow:0 0 0 3px rgba(255,223,54,.2)}
+label{color:#ffdf36}
+.msg.ok{color:#ffed75}.msg.err{color:#ffb2a8}
+.price{
+  color:#173b29;background:linear-gradient(135deg,#ffe65a,#ffcf24);
+}
+.contact-grid .form-box{background:linear-gradient(150deg,#14583a,#0d402b)}
+.qr{background:#fff}
+.cta-row{color:#ffdf36}
+a:not(.btn){color:#ffdf36}
+.social .btn.facebook{background:#1877f2;color:#fff}
+.social .btn.tiktok{background:#111;color:#fff}
+.social .btn.telegram{background:#229ed9;color:#fff}
+.social .btn.whatsapp{background:#25a244;color:#fff}
+@media(max-width:800px){
+  .hero{background:linear-gradient(150deg,#092e20,#17613f)}
+  .hero-content{padding:24px}
+}
+
+
+/* Redes sociales y QR en la portada */
+.home-social{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:28px;
+}
+.home-qr{
+  flex:0 0 112px;width:112px;height:112px;padding:9px;
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+.home-qr img{display:block;width:100%;height:100%;object-fit:contain}
+.home-social-content{min-width:0}
+.home-social-content p{font-size:.9rem;margin:0 0 9px;color:#fff7b2}
+.home-social-links{display:flex;gap:9px;flex-wrap:wrap}
+.home-social-links .btn{padding:10px 14px;font-size:.9rem}
+.home-social-links .btn.whatsapp{background:#25a244;color:#fff}
+.home-social-links .btn.facebook{background:#1877f2;color:#fff}
+.home-social-links .btn.tiktok{background:#111;color:#fff}
+.home-social-links .btn.telegram{background:#229ed9;color:#fff}
+@media(max-width:520px){
+  .home-social{align-items:flex-start;gap:12px}
+  .home-qr{flex-basis:94px;width:94px;height:94px}
+  .home-social-content{flex:1}
+  .home-social-links{gap:7px}
+  .home-social-links .btn{padding:9px 11px;font-size:.84rem}
+}
+
+
+/* PORTADA ACTUALIZADA: redes arriba, imagen y tarjetas en la misma página */
+.landing{padding:22px 4% 56px;min-height:100vh}
+.landing-social{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:0 auto 18px;max-width:1500px;padding:14px 18px;border:1px solid rgba(255,223,54,.35);border-radius:16px;background:rgba(7,42,28,.88)}
+.landing-social .home-social-content{flex:1;min-width:220px}
+.landing-social .home-social-content p{font-size:1.05rem;font-weight:bold;margin:0 0 9px;color:#ffdf36}
+.landing-social .home-qr{flex:0 0 86px;width:86px;height:86px;padding:6px}
+.landing-image{display:block;width:100%;max-width:1500px;max-height:460px;object-fit:contain;margin:0 auto 24px;border-radius:16px;background:#f7f5e9;border:1px solid rgba(255,223,54,.35);box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.promo-head{margin:0 auto 24px;padding:18px 16px;border-radius:16px;background:linear-gradient(135deg,#14583a,#0d402b);border:1px solid rgba(255,223,54,.3);max-width:1100px}
+.promo-head h2{color:#ffdf36}.promo-head p{color:#fff7d1}
+/* AUTO PEQUEÑO CENTRADO ENTRE LA FRASE Y LAS TARJETAS */
+.center-car{display:flex;justify-content:center;align-items:center;margin:0 auto 18px;width:100%;}
+.center-car img{display:block;width:min(230px,55vw);height:auto;max-height:112px;object-fit:contain;border-radius:12px;filter:drop-shadow(0 7px 10px rgba(0,0,0,.35));}
+.landing .cards{max-width:1500px;margin:0 auto}
+.landing .card img{height:250px;object-fit:contain;padding:10px;background:#f7f5e9}
+@media(max-width:800px){.landing{padding:16px 4% 40px}.landing-social{align-items:flex-start}.landing-social .home-social-content{width:100%}.landing-social .home-qr{margin-left:auto}.landing-image{max-height:320px}.landing .card img{height:260px}}
+
+/* PORTADA AUTOCLICK QR: nuevo diseño verde/negro, sin auto rojo */
+.landing{background:linear-gradient(135deg,#03190f 0%,#075333 52%,#03190f 100%);}
+.landing-image{display:block;width:100%;max-width:1500px;height:auto;max-height:none;object-fit:contain;margin:0 auto 22px;border:2px solid #b5f500;border-radius:18px;background:#03190f;box-shadow:0 12px 34px rgba(0,0,0,.42);}
+.landing .cards{max-width:1500px;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;}
+.landing .card{border:2px solid #b5f500;border-radius:18px;background:linear-gradient(145deg,#14583a,#082e20);}
+.landing .card img{display:block;width:100%;height:auto;object-fit:contain;object-position:center;padding:0;background:#f7f5e9;}
+.landing .card .body{background:linear-gradient(145deg,#14583a,#082e20);}
+.landing .card h3{color:#ffdf36;}
+@media(max-width:800px){.landing .cards{grid-template-columns:1fr}.landing .card img{height:auto}.landing-image{margin-bottom:18px}}
+
+
+/* Sección Nosotros: botones de Visión, Misión y Valores */
+.about-entry{display:flex;justify-content:center;margin:28px auto 8px}
+.about-entry .btn{min-width:190px;padding:13px 30px;font-weight:800}
+.about-panel{max-width:1050px;margin:24px auto;padding:30px;background:linear-gradient(145deg,#07563a,#032d20);border:2px solid #b5f500;border-radius:20px;box-shadow:0 12px 32px rgba(0,0,0,.3);text-align:center}
+.about-panel h2{margin:0 0 10px;color:#ffdf36;font-size:2rem}
+.about-intro{color:#f6f3df;margin:0 auto 24px}
+.about-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.about-option{min-height:155px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:20px 14px;border:2px solid #b5f500;border-radius:16px;background:linear-gradient(145deg,#0b7547,#031e15);color:#fff;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.28);transition:transform .2s,box-shadow .2s}
+.about-option:hover{transform:translateY(-4px);box-shadow:0 10px 22px rgba(181,245,0,.22)}
+.about-option strong{color:#ffdf36;font-size:1.2rem;letter-spacing:1px}
+.about-option small{color:#f6f3df;font-size:.9rem}
+.about-symbol{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;border:2px solid #ffdf36;color:#ffdf36;font-size:2rem;font-weight:900}
+.about-detail{max-width:850px;padding:38px}
+.about-detail p{color:#f6f3df;font-size:1.08rem;line-height:1.8;max-width:720px;margin:12px auto 0}
+@media(max-width:700px){.about-panel{padding:20px 14px;margin:16px 0}.about-options{grid-template-columns:1fr}.about-option{min-height:120px}.about-panel h2{font-size:1.65rem}}
+
+</style>
+</head>
+<body>
+
+<main>
+<!-- PÁGINA PRINCIPAL: REDES, IMAGEN Y CATÁLOGOS -->
+<section class="view page landing active" id="inicio">
+  <div class="landing-social">
+    <div class="home-social-content">
+      <p>¡Síguenos y contáctanos!</p>
+      <div class="home-social-links">
+        <a class="btn whatsapp" href="https://wa.me/51971227477" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn facebook" href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a>
+        <a class="btn tiktok" href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a>
+        <a class="btn telegram" href="https://t.me/+51971227477" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+    <a class="home-qr" href="https://wa.me/51971227477" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+      <img src="assets/qr-whatsapp.png" alt="Código QR de WhatsApp">
+    </a>
+  </div>
+  <img class="landing-image" src="assets/portada-auto.jpg" alt="AUTOCLICK QR - servicios para tu vehículo">
+<div class="cards">
+    <article class="card">
+      <img src="assets/image6.webp" alt="Catálogo de mantenimiento del sistema de transmisión">
+      <div class="body"><h3>Mantenimiento</h3><p>Información sobre el mantenimiento del sistema de transmisión de fuerza y sus componentes.</p><button class="btn secondary" data-go="mantenimiento" type="button">Ver catálogo</button></div>
+    </article>
+    <article class="card">
+      <img src="assets/image15.webp" alt="Catálogo de mercado de autopartes">
+      <div class="body"><h3>Repuestos</h3><p>Referencias de autopartes y repuestos nuevos o de segunda mano.</p><button class="btn secondary" data-go="repuestos" type="button">Ver catálogo</button></div>
+    </article>
+    <article class="card">
+      <img src="assets/image35.webp" alt="Catálogo de auxilio vehicular">
+      <div class="body"><h3>Auxilio vehicular</h3><p>Grúas y mecánicos en tu ruta de Tarma a Satipo.</p><button class="btn secondary" data-go="auxilio" type="button">Ver catálogo</button></div>
+    </article>
+  </div>
+  <div class="about-entry">
+    <button class="btn secondary" data-go="nosotros" type="button">Nosotros</button>
+  </div>
+</section>
+
+<!-- NOSOTROS: opciones de identidad institucional -->
+<section class="view page" id="nosotros">
+  <div class="topbar"><button class="back" data-go="inicio" type="button">← Inicio</button></div>
+  <div class="about-panel">
+    <h2>Nosotros</h2>
+    <p class="about-intro">Conoce la identidad y los principios de AUTOCLICK QR.</p>
+    <div class="about-options">
+      <button class="about-option" data-go="vision" type="button"><span class="about-symbol">◎</span><strong>VISIÓN</strong><small>Hacia dónde queremos llegar</small></button>
+      <button class="about-option" data-go="mision" type="button"><span class="about-symbol">◈</span><strong>MISIÓN</strong><small>Lo que hacemos cada día</small></button>
+      <button class="about-option" data-go="valores" type="button"><span class="about-symbol">✓</span><strong>VALORES</strong><small>Lo que nos representa</small></button>
+    </div>
+  </div>
+</section>
+
+<section class="view page" id="vision">
+  <div class="topbar"><button class="back" data-go="nosotros" type="button">← Nosotros</button></div>
+  <div class="about-panel about-detail"><span class="about-symbol">◎</span><h2>Visión</h2><p>Ser una plataforma digital reconocida por facilitar el acceso a servicios, repuestos y asistencia vehicular, brindando confianza y soluciones útiles a cada conductor.</p></div>
+</section>
+
+<section class="view page" id="mision">
+  <div class="topbar"><button class="back" data-go="nosotros" type="button">← Nosotros</button></div>
+  <div class="about-panel about-detail"><span class="about-symbol">◈</span><h2>Misión</h2><p>Conectar a los conductores con información de mantenimiento, catálogos de autopartes y opciones de auxilio vehicular de manera sencilla, rápida y accesible.</p></div>
+</section>
+
+<section class="view page" id="valores">
+  <div class="topbar"><button class="back" data-go="nosotros" type="button">← Nosotros</button></div>
+  <div class="about-panel about-detail"><span class="about-symbol">✓</span><h2>Valores</h2><p>Compromiso, responsabilidad, confianza, respeto, calidad de servicio y orientación al cliente.</p></div>
+</section>
+
+<!-- MANTENIMIENTO -->
+<section class="view page" id="mantenimiento">
+  <div class="topbar"><button class="back" data-go="inicio" type="button">← Catálogos</button><button class="btn secondary" data-go="contacto" type="button">Contacto</button></div>
+  <div class="section-head"><h2>Mantenimiento</h2><p>Sistema de transmisión de fuerza y componentes relacionados.</p></div>
+  <div class="catalog-grid">
+    <div class="catalog-item"><img src="assets/image6.webp" alt="Afiche de mantenimiento"><h3>Guía de mantenimiento</h3></div>
+    <div class="catalog-item"><img src="assets/image8.webp" alt="Componentes del sistema de transmisión"><h3>Componentes del sistema</h3></div>
+    <div class="catalog-item"><img src="assets/image10.webp" alt="Conjunto de transmisión"><h3>Conjunto de transmisión</h3></div>
+    <div class="catalog-item"><img src="assets/image14.webp" alt="Mecanismo de embrague"><h3>Mecanismo de embrague</h3></div>
+  </div>
+  <div class="cta-row"><button class="btn" data-go="registro" type="button">Registrarme y compartir ubicación</button></div>
+</section>
+
+<!-- REPUESTOS -->
+<section class="view page" id="repuestos">
+  <div class="topbar"><button class="back" data-go="inicio" type="button">← Catálogos</button><button class="btn secondary" data-go="contacto" type="button">Contacto</button></div>
+  <div class="section-head"><h2>Repuestos</h2><p>Referencias de autopartes incluidas en el catálogo.</p></div>
+  <div class="catalog-grid">
+    <div class="catalog-item"><img src="assets/image15.webp" alt="Afiche mercado de autopartes"><h3>Mercado de autopartes</h3></div>
+    <div class="catalog-item"><img src="assets/image19.webp" alt="Kit de embrague"><h3>Kit de embrague</h3><span class="price">S/ --.--</span></div>
+    <div class="catalog-item"><img src="assets/image20.webp" alt="Retén o sello"><h3>Retén</h3><span class="price">S/ --.--</span></div>
+    <div class="catalog-item"><img src="assets/image21.webp" alt="Junta universal"><h3>Cruceta</h3><span class="price">S/ --.--</span></div>
+    <div class="catalog-item"><img src="assets/image24.webp" alt="Aceite para vehículo"><h3>Lubricantes</h3><span class="price">S/ --.--</span></div>
+    <div class="catalog-item"><img src="assets/image25.webp" alt="Batería para vehículo"><h3>Batería</h3><span class="price">S/ --.--</span></div>
+    <div class="catalog-item"><img src="assets/image28.webp" alt="Filtro de aire"><h3>Filtro</h3><span class="price">S/ --.--</span></div>
+    <div class="catalog-item"><img src="assets/image31.webp" alt="Bujías"><h3>Bujías</h3><span class="price">S/ --.--</span></div>
+  </div>
+  <div class="cta-row"><button class="btn" data-go="registro" type="button">Registrarme y compartir ubicación</button></div>
+</section>
+
+<!-- AUXILIO -->
+<section class="view page" id="auxilio">
+  <div class="topbar"><button class="back" data-go="inicio" type="button">← Catálogos</button><button class="btn secondary" data-go="contacto" type="button">Contacto</button></div>
+  <div class="section-head"><h2>Auxilio vehicular</h2><p>Información para pedir apoyo durante tu recorrido.</p></div>
+  <div class="catalog-grid">
+    <div class="catalog-item"><img src="assets/image35.webp" alt="Afiche de auxilio vehicular"><h3>Auxilio vehicular</h3></div>
+    <div class="catalog-item"><img src="assets/image36.webp" alt="Información de auxilio y rutas"><h3>Servicios y rutas</h3></div>
+    <div class="catalog-item"><img src="assets/image32.webp" alt="Afiche de grúa y asistencia"><h3>Grúa y asistencia</h3></div>
+    <div class="catalog-item"><img src="assets/image33.webp" alt="Mapa de ubicación"><h3>Referencia de ubicación</h3></div>
+  </div>
+  <div class="cta-row"><button class="btn" data-go="registro" type="button">Registrarme y compartir ubicación</button></div>
+</section>
+
+<!-- REGISTRO + UBICACIÓN EN TIEMPO REAL -->
+<section class="view page" id="registro">
+  <div class="topbar"><button class="back" data-go="inicio" type="button">← Catálogos</button><button class="btn secondary" data-go="contacto" type="button">Contacto</button></div>
+  <div class="section-head"><h2>Registro y ubicación</h2><p>Regístrate y comparte tu ubicación en tiempo real para recibir apoyo.</p></div>
+
+  <div class="form-box">
+    <h3>1. Tus datos</h3>
+    <label for="nombre">Nombre completo</label><input id="nombre" type="text" autocomplete="name">
+    <label for="telefono">Teléfono</label><input id="telefono" type="tel" autocomplete="tel">
+    <label for="placa">Placa del vehículo</label><input id="placa" type="text">
+    <div class="btn-row"><button class="btn secondary" id="saveBtn" type="button">Registrarme</button></div>
+    <div class="msg" id="regMsg" aria-live="polite"></div>
+  </div>
+
+  <div class="form-box">
+    <h3>2. Tu ubicación en tiempo real</h3>
+    <p>El navegador te pedirá permiso. La ubicación se actualiza sola mientras estés en esta página.</p>
+    <div class="btn-row">
+      <button class="btn secondary" id="gpsStart" type="button">Compartir mi ubicación</button>
+      <button class="back" id="gpsStop" type="button" hidden>Dejar de compartir</button>
+    </div>
+    <div class="msg" id="gpsResult" aria-live="polite"></div>
+    <div class="btn-row" id="sendRow" hidden>
+      <a class="btn telegram" id="tgLink" target="_blank" rel="noopener">Enviar por Telegram</a>
+      <a class="btn whatsapp" id="waLink" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+<!-- CONTACTO -->
+<section class="view page" id="contacto">
+  <div class="topbar"><button class="back" data-go="inicio" type="button">← Catálogos</button></div>
+  <div class="section-head"><h2>Contacto</h2><p>Escríbenos para pedir información o ayuda.</p></div>
+  <div class="contact-grid">
+    <div class="form-box">
+      <h3>WhatsApp</h3>
+      <p>Escanea el código con tu celular o toca el botón.</p>
+      <a href="https://wa.me/51971227477" target="_blank" rel="noopener"><img class="qr" src="assets/qr-whatsapp.png" alt="Código QR que abre WhatsApp con el 971 227 477"></a>
+      <a class="btn whatsapp" href="https://wa.me/51971227477" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      <p>Teléfono: <a href="tel:+51971227477">971 227 477</a></p>
+    </div>
+    <div class="form-box">
+      <h3>Redes sociales</h3>
+      <p>Síguenos y escríbenos por tu red favorita.</p>
+      <div class="social">
+        <!-- CAMBIA AQUÍ los enlaces de Facebook y TikTok por los tuyos -->
+        <a class="btn facebook" href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a>
+        <a class="btn tiktok" href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a>
+        <a class="btn telegram" href="https://t.me/+51971227477" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+
+<script>
+var PHONE = '51971227477';
+
+/* Navegación entre pantallas */
+function show(id){
+  if(!document.getElementById(id)) id = 'inicio';
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.toggle('active', v.id === id); });
+  window.scrollTo(0,0);
+}
+document.addEventListener('click', function(e){
+  var b = e.target.closest('[data-go]');
+  if(b){ location.hash = b.getAttribute('data-go'); }
+});
+window.addEventListener('hashchange', function(){ show(location.hash.slice(1)); });
+show(location.hash.slice(1));
+
+/* Registro (se guarda solo en este dispositivo) */
+var f = {n:document.getElementById('nombre'), t:document.getElementById('telefono'), p:document.getElementById('placa')};
+var regMsg = document.getElementById('regMsg');
+try{ var saved = JSON.parse(localStorage.getItem('autoclick_registro')||'null'); if(saved){ f.n.value=saved.n||''; f.t.value=saved.t||''; f.p.value=saved.p||''; } }catch(e){}
+document.getElementById('saveBtn').addEventListener('click', function(){
+  if(!f.n.value.trim() || !f.t.value.trim()){ regMsg.className='msg err'; regMsg.textContent='Escribe tu nombre y tu teléfono.'; return; }
+  try{ localStorage.setItem('autoclick_registro', JSON.stringify({n:f.n.value.trim(), t:f.t.value.trim(), p:f.p.value.trim()})); }catch(e){}
+  regMsg.className='msg ok'; regMsg.textContent='Registro guardado. Ahora comparte tu ubicación.';
+});
+
+/* Ubicación en tiempo real */
+var watchId = null, res = document.getElementById('gpsResult');
+var startBtn = document.getElementById('gpsStart'), stopBtn = document.getElementById('gpsStop');
+var sendRow = document.getElementById('sendRow');
+function update(pos){
+  var lat = pos.coords.latitude.toFixed(6), lon = pos.coords.longitude.toFixed(6);
+  var map = 'https://www.openstreetmap.org/?mlat='+lat+'&mlon='+lon+'#map=17/'+lat+'/'+lon;
+  res.className='msg ok';
+  res.innerHTML = 'Ubicación actual: '+lat+', '+lon+' (precisión ±'+Math.round(pos.coords.accuracy)+' m) — <a target="_blank" rel="noopener" href="'+map+'">Ver en el mapa</a>';
+  var txt = 'Solicito auxilio vehicular. Nombre: '+(f.n.value||'-')+'. Tel: '+(f.t.value||'-')+'. Placa: '+(f.p.value||'-')+'. Mi ubicación: '+map;
+  document.getElementById('tgLink').href = 'https://t.me/share/url?url='+encodeURIComponent(map)+'&text='+encodeURIComponent(txt);
+  document.getElementById('waLink').href = 'https://wa.me/'+PHONE+'?text='+encodeURIComponent(txt);
+  sendRow.hidden = false;
+}
+startBtn.addEventListener('click', function(){
+  if(!navigator.geolocation){ res.className='msg err'; res.textContent='Tu navegador no permite obtener ubicación GPS.'; return; }
+  res.className='msg'; res.textContent='Solicitando permiso de ubicación…';
+  watchId = navigator.geolocation.watchPosition(update, function(err){
+    res.className='msg err';
+    res.textContent = err.code===1 ? 'No diste permiso para acceder a la ubicación.' : 'No se pudo obtener la ubicación. Activa el GPS e inténtalo de nuevo.';
+  }, {enableHighAccuracy:true, timeout:20000, maximumAge:0});
+  startBtn.hidden = true; stopBtn.hidden = false;
+});
+stopBtn.addEventListener('click', function(){
+  if(watchId!==null){ navigator.geolocation.clearWatch(watchId); watchId=null; }
+  startBtn.hidden = false; stopBtn.hidden = true; res.className='msg'; res.textContent='Dejaste de compartir tu ubicación.';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+CARPETA COMPLETA - AUTOCLICK QR
+index.html  -> tu página (sin cambios)
+assets/     -> todas las imágenes que tu página necesita
+
+IMPORTANTE: index.html y la carpeta assets deben estar JUNTOS.
+Para verla: doble clic en index.html.
+Para GitHub: sube index.html y la carpeta assets al repositorio (Add file > Upload files),
+luego Settings > Pages > Branch main / root.
